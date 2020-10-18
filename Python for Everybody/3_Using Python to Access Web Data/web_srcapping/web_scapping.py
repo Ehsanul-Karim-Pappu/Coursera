@@ -18,7 +18,9 @@ headers = {}
 headers['User-Agent'] = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0'
 
 req = urllib.request.Request(main_url, headers=headers)
+print('Requesting for', main_url, '...')
 html = urlopen(req).read()
+print('Response Retrieved')
 soup = BeautifulSoup(html, 'html.parser')
 
 for tag in soup.findAll('a'):
@@ -28,10 +30,13 @@ for tag in soup.findAll('a'):
             headers = {}
             headers['User-Agent'] = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:80.0) Gecko/20100101 Firefox/80.0'
             req = urllib.request.Request(url, headers=headers)
+            print('Requesting for', url, '...')
             code = urlopen(req).read().decode('utf8')
-            filename = "code/" + tag.contents[0]
+            print('Response Retrieved')
+            filename = "code1/" + tag.contents[0]
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             with open(filename, "w") as fhand:
+                print('Writing retrieved data in', tag.contents[0])
                 fhand.write(code)
                 fhand.close()
         except SocketError as e:
